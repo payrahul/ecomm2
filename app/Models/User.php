@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
@@ -16,11 +18,19 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array<int, string>
      */
+
+     use SoftDeletes;
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'uuid',
+        'phone_number',
+        'role_id',
+
     ];
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that should be hidden for serialization.

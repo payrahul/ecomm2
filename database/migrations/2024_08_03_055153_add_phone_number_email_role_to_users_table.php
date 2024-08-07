@@ -25,10 +25,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('uuid',36);
-            $table->string('phone_number', 12);
-            $table->unsignedBigInteger('role_id');
-            $table->softDeletes();
+            $table->dropColumn('uuid');
+            $table->dropColumn('phone_number');
+            $table->dropColumn('role_id');
+            $table->dropSoftDeletes(); 
         });
     }
 };
