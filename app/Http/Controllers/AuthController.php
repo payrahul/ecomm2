@@ -13,6 +13,7 @@ use Validator;
 use App\Traits\GetArray;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
+use App\Events\UserRegistered;
 class AuthController extends BaseController
 {
     use GetArray;
@@ -35,7 +36,12 @@ class AuthController extends BaseController
         $input['uuid']= (string) Str::uuid();;
         $user = User::create($input);
         $success['user'] =$user; 
-        return $this->sendResponse($success,'User registered successfully');
+        // return $success;
+        // $first="11";
+        // $success = $first;
+        return   event(new UserRegistered($success));
+        // return "567";
+        // return $this->sendResponse($success,'User registered successfully');
     }
 
     public function deleteUser(Request $request)
@@ -57,8 +63,6 @@ class AuthController extends BaseController
 
     public function updateUser(Request $request)
     {
-        Log::info('Storing user data', ['data' => $request->all()]);
-        Log::channel('custom')->info('This message should appear in the custom.log file.');
         $result = $this->getRoles();
         $keys = [];
         foreach($result as $key => $value){
